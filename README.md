@@ -14,7 +14,9 @@
 
   # 在项目根目录执行
   node server.mjs
-
+  或者
+  npm run server 
+  这两个命令是完全相同的，因为 package.json 中的 "server" 脚本就是 node server.mjs。
   选择B: 超高性能版本 (需要先创建索引)
 
   # 步骤1: 创建网格化索引 (可选，但强烈推荐)

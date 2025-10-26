@@ -27,6 +27,7 @@ import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
 import { Route as AuthenticatedSstQueryRouteRouteImport } from './routes/_authenticated/sst-query/route'
 import { Route as AuthenticatedSstRouteRouteImport } from './routes/_authenticated/sst/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedFeedbackRouteRouteImport } from './routes/_authenticated/feedback/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSstQueryIndexRouteImport } from './routes/_authenticated/sst-query/index'
@@ -133,6 +134,12 @@ const AuthenticatedSettingsRouteRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedFeedbackRouteRoute =
+  AuthenticatedFeedbackRouteRouteImport.update({
+    id: '/feedback',
+    path: '/feedback',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   id: '/users/',
   path: '/users/',
@@ -226,6 +233,7 @@ const AuthenticatedErrorsErrorRoute =
 
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
+  '/feedback': typeof AuthenticatedFeedbackRouteRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/sst': typeof AuthenticatedSstRouteRoute
   '/sst-query': typeof AuthenticatedSstQueryRouteRouteWithChildren
@@ -259,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesByTo {
+  '/feedback': typeof AuthenticatedFeedbackRouteRoute
   '/sst': typeof AuthenticatedSstRouteRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
@@ -293,6 +302,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
+  '/_authenticated/feedback': typeof AuthenticatedFeedbackRouteRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/_authenticated/sst': typeof AuthenticatedSstRouteRoute
   '/_authenticated/sst-query': typeof AuthenticatedSstQueryRouteRouteWithChildren
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/clerk'
+    | '/feedback'
     | '/settings'
     | '/sst'
     | '/sst-query'
@@ -363,6 +374,7 @@ export interface FileRouteTypes {
     | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/feedback'
     | '/sst'
     | '/clerk'
     | '/forgot-password'
@@ -396,6 +408,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/clerk'
+    | '/_authenticated/feedback'
     | '/_authenticated/settings'
     | '/_authenticated/sst'
     | '/_authenticated/sst-query'
@@ -573,6 +586,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/feedback': {
+      id: '/_authenticated/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof AuthenticatedFeedbackRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/users/': {
       id: '/_authenticated/users/'
       path: '/users'
@@ -726,6 +746,7 @@ const AuthenticatedSstQueryRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedFeedbackRouteRoute: typeof AuthenticatedFeedbackRouteRoute
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedSstRouteRoute: typeof AuthenticatedSstRouteRoute
   AuthenticatedSstQueryRouteRoute: typeof AuthenticatedSstQueryRouteRouteWithChildren
@@ -740,6 +761,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedFeedbackRouteRoute: AuthenticatedFeedbackRouteRoute,
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedSstRouteRoute: AuthenticatedSstRouteRoute,
   AuthenticatedSstQueryRouteRoute: AuthenticatedSstQueryRouteRouteWithChildren,

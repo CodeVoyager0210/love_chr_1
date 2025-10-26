@@ -24,14 +24,15 @@ import {
   Thermometer,
   MapPin,
   Image,
+  MessageSquare,
 } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
   user: {
-    name: 'satnaing',
-    email: 'satnaingdev@gmail.com',
+    name: 'hujieming',
+    email: 'hujieming0825@gmail.com',
     avatar: '/avatars/shadcn.jpg',
   },
   teams: [
@@ -60,11 +61,21 @@ export const sidebarData: SidebarData = {
           url: '/regional-analysis',
           icon: MapPin,
         },
+        {
+          title: '用户需求建议',
+          url: '/feedback',
+          icon: MessageSquare,
+        },
       ],
     },
     {
       title: '其他',
       items: [
+        {
+          title: 'Dashboard',
+          url: '/',
+          icon: LayoutDashboard,
+        },
         {
           title: 'Settings',
           icon: Settings,

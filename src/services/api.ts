@@ -38,6 +38,19 @@ export interface SSTStats {
   };
 }
 
+export interface UserFeedback {
+  id: number;
+  user_name: string;
+  user_email?: string;
+  feedback_type: '功能建议' | '问题反馈' | '数据需求' | '其他';
+  feedback_text: string;
+  priority: '低' | '中' | '高';
+  status: '待处理' | '处理中' | '已完成' | '已关闭';
+  created_at: string;
+  updated_at: string;
+  admin_notes?: string;
+}
+
 export const sstApi = {
   // SST图片相关API
   getSSTImages: async (params?: {
@@ -52,6 +65,34 @@ export const sstApi = {
   // 获取统计信息
   getStats: async (): Promise<SSTStats> => {
     const response = await api.get('/stats');
+    return response.data;
+  },
+
+  // 用户反馈相关API
+  submitFeedback: async (feedback: {
+    user_name: string;
+    user_email?: string;
+    feedback_type: '功能建议' | '问题反馈' | '数据需求' | '其他';
+    feedback_text: string;
+    priority?: '低' | '中' | '高';
+  }): Promise<{ success: boolean; message: string; feedback_id: number }> => {
+    const response = await api.post('/feedback', feedback);
+    return response.data;
+  },
+
+  // 获取反馈列表（管理员功能）
+  getFeedbackList: async (params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    feedback_type?: string;
+  }): Promise<{
+    feedback: UserFeedback[];
+    total: number;
+    page: number;
+    totalPages: number;
+  }> => {
+    const response = await api.get('/feedback', { params });
     return response.data;
   },
 

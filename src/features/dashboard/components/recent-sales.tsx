@@ -1,82 +1,83 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Thermometer, Image, MapPin, MessageSquare } from 'lucide-react'
 
 export function RecentSales() {
   return (
     <div className='space-y-8'>
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/01.png' alt='Avatar' />
-          <AvatarFallback>OM</AvatarFallback>
+      <div className='flex items-center gap-4 p-3 rounded-lg hover:bg-accent cursor-pointer transition-colors'>
+        <Avatar className='h-9 w-9 bg-blue-100'>
+          <AvatarFallback className='text-blue-600'>
+            <Thermometer className="w-4 h-4" />
+          </AvatarFallback>
         </Avatar>
         <div className='flex flex-1 flex-wrap items-center justify-between'>
           <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Olivia Martin</p>
+            <p className='text-sm leading-none font-medium'>海面温度系统</p>
             <p className='text-muted-foreground text-sm'>
-              olivia.martin@email.com
+              查看全球海洋温度数据
             </p>
           </div>
-          <div className='font-medium'>+$1,999.00</div>
-        </div>
-      </div>
-      <div className='flex items-center gap-4'>
-        <Avatar className='flex h-9 w-9 items-center justify-center space-y-0 border'>
-          <AvatarImage src='/avatars/02.png' alt='Avatar' />
-          <AvatarFallback>JL</AvatarFallback>
-        </Avatar>
-        <div className='flex flex-1 flex-wrap items-center justify-between'>
-          <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Jackson Lee</p>
-            <p className='text-muted-foreground text-sm'>
-              jackson.lee@email.com
-            </p>
-          </div>
-          <div className='font-medium'>+$39.00</div>
-        </div>
-      </div>
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/03.png' alt='Avatar' />
-          <AvatarFallback>IN</AvatarFallback>
-        </Avatar>
-        <div className='flex flex-1 flex-wrap items-center justify-between'>
-          <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Isabella Nguyen</p>
-            <p className='text-muted-foreground text-sm'>
-              isabella.nguyen@email.com
-            </p>
-          </div>
-          <div className='font-medium'>+$299.00</div>
+          <Badge variant="secondary">主要功能</Badge>
         </div>
       </div>
 
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/04.png' alt='Avatar' />
-          <AvatarFallback>WK</AvatarFallback>
+      <div className='flex items-center gap-4 p-3 rounded-lg hover:bg-accent cursor-pointer transition-colors'>
+        <Avatar className='h-9 w-9 bg-green-100'>
+          <AvatarFallback className='text-green-600'>
+            <Image className="w-4 h-4" />
+          </AvatarFallback>
         </Avatar>
         <div className='flex flex-1 flex-wrap items-center justify-between'>
           <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>William Kim</p>
-            <p className='text-muted-foreground text-sm'>will@email.com</p>
+            <p className='text-sm leading-none font-medium'>温度分布图</p>
+            <p className='text-muted-foreground text-sm'>
+              可视化温度分布
+            </p>
           </div>
-          <div className='font-medium'>+$99.00</div>
+          <Badge variant="outline">每日更新</Badge>
         </div>
       </div>
 
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/05.png' alt='Avatar' />
-          <AvatarFallback>SD</AvatarFallback>
+      <div className='flex items-center gap-4 p-3 rounded-lg hover:bg-accent cursor-pointer transition-colors'>
+        <Avatar className='h-9 w-9 bg-purple-100'>
+          <AvatarFallback className='text-purple-600'>
+            <MapPin className="w-4 h-4" />
+          </AvatarFallback>
         </Avatar>
         <div className='flex flex-1 flex-wrap items-center justify-between'>
           <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Sofia Davis</p>
+            <p className='text-sm leading-none font-medium'>区域分析</p>
             <p className='text-muted-foreground text-sm'>
-              sofia.davis@email.com
+              特定海域深度分析
             </p>
           </div>
-          <div className='font-medium'>+$39.00</div>
+          <Badge variant="outline">高精度</Badge>
         </div>
+      </div>
+
+      <div className='flex items-center gap-4 p-3 rounded-lg hover:bg-accent cursor-pointer transition-colors'>
+        <Avatar className='h-9 w-9 bg-orange-100'>
+          <AvatarFallback className='text-orange-600'>
+            <MessageSquare className="w-4 h-4" />
+          </AvatarFallback>
+        </Avatar>
+        <div className='flex flex-1 flex-wrap items-center justify-between'>
+          <div className='space-y-1'>
+            <p className='text-sm leading-none font-medium'>用户反馈</p>
+            <p className='text-muted-foreground text-sm'>
+              提交建议和意见
+            </p>
+          </div>
+          <Badge variant="outline">20+ 条</Badge>
+        </div>
+      </div>
+
+      <div className='mt-6 p-4 bg-blue-50 rounded-lg'>
+        <p className='text-sm font-medium text-blue-900 mb-2'>快速提示</p>
+        <p className='text-xs text-blue-700'>
+          点击上方任一功能卡片可快速访问对应功能模块
+        </p>
       </div>
     </div>
   )

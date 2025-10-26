@@ -129,6 +129,122 @@ app.get('/api/stats', async (req, res) => {
   }
 });
 
+// 用户反馈API - 提交反馈
+app.post('/api/feedback', async (req, res) => {
+  try {
+    const { user_name, user_email, feedback_type, feedback_text, priority } = req.body;
+
+    if (!feedback_text) {
+      return res.status(400).json({
+        error: '缺少必填字段',
+        message: '反馈内容是必填的'
+      });
+    }
+
+    // 映射反馈类型到数据库枚举值
+    const typeMap = {
+      '功能建议': 'suggestion',
+      '问题反馈': 'bug_report',
+      '数据需求': 'suggestion',
+      '其他': 'other'
+    };
+
+    // 映射优先级到数据库枚举值
+    const priorityMap = {
+      '低': 'low',
+      '中': 'medium',
+      '高': 'high'
+    };
+
+    const query = `
+      INSERT INTO user_feedback (feedback_content, feedback_type, priority, source, category)
+      VALUES (?, ?, ?, 'web', ?)
+    `;
+
+    const [result] = await pool.execute(query, [
+      feedback_text,
+      typeMap[feedback_type] || 'other',
+      priorityMap[priority] || 'medium',
+      user_name || '匿名用户'
+    ]);
+
+    console.log('New feedback submitted:', result.insertId);
+
+    res.json({
+      success: true,
+      message: '反馈提交成功，感谢您的建议！',
+      feedback_id: result.insertId
+    });
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: '提交失败，请稍后重试',
+      details: error.message
+    });
+  }
+});
+
+// 用户反馈API - 获取反馈列表（管理员功能）
+app.get('/api/feedback', async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status, feedback_type } = req.query;
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+
+    let query = `
+      SELECT feedback_id, feedback_content, feedback_type, priority, status,
+             category, source, created_at, updated_at, processed_by, processed_at, response
+      FROM user_feedback
+      WHERE 1=1
+    `;
+    const params = [];
+
+    if (status) {
+      query += ' AND status = ?';
+      params.push(status);
+    }
+
+    if (feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(feedback_type);
+    }
+
+    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+    params.push(parseInt(limit), offset);
+
+    const [rows] = await pool.execute(query, params);
+
+    // 获取总数
+    let countQuery = 'SELECT COUNT(*) as total FROM user_feedback WHERE 1=1';
+    const countParams = [];
+
+    if (status) {
+      countQuery += ' AND status = ?';
+      countParams.push(status);
+    }
+
+    if (feedback_type) {
+      countQuery += ' AND feedback_type = ?';
+      countParams.push(feedback_type);
+    }
+
+    const [countRows] = await pool.execute(countQuery, countParams);
+
+    res.json({
+      feedback: rows,
+      total: countRows[0].total,
+      page: parseInt(page),
+      totalPages: Math.ceil(countRows[0].total / parseInt(limit))
+    });
+  } catch (error) {
+    console.error('Error fetching feedback:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
+});
+
 // 健康检查API
 app.get('/api/health', async (req, res) => {
   try {
