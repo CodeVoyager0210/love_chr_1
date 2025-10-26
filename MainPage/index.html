@@ -29,12 +29,52 @@
     <div class="hero">
         <h1>探索海洋，洞察温度</h1>
         <p class="tagline">OISST - 专业的海洋表面温度数据分析平台，提供全球海域温度监测、变化趋势分析和对比查询功能</p>
-        <button class="cta-button" id="startMonitoringBtn">开始查询</button>
+        <button type="button" class="cta-button" id="startMonitoringBtn">开始查询</button>
 
         <h2 class="assembly-title">温度数据分析功能</h2>
         <div class="component-assembly">
             <!-- 数据点将通过JavaScript动态添加 -->
         </div>
+
+        <div class="section-separator"></div>
+
+        <!-- AI assistant Section -->
+        <section id="ai-assistant">
+            <h2 class="testimonials-title">AI Assistant - 海洋数据智能问答</h2>
+            <div class="ai-chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="ai-welcome-message">
+                        <p>🌊 您好！我是OISST海洋表面温度查询系统的专业AI助手。</p>
+                        <p>我可以帮助您：</p>
+                        <ul>
+                            <li>🔬 解答海洋表面温度和海洋学专业知识</li>
+                            <li>📊 分析CSV数据（支持温度、海洋相关数据）</li>
+                            <li>📈 介绍OISST系统功能和使用方法</li>
+                            <li>🌍 提供气候变化的海洋学解释</li>
+                        </ul>
+                        <p>💡 您可以上传CSV文件进行数据分析，或直接向我提问任何相关问题。</p>
+                    </div>
+                </div>
+                <form id="chatForm" class="chat-input-container" onsubmit="return false;">
+                    <input type="text" id="chatInput" placeholder="请输入您的问题..." autocomplete="off" form="chatForm">
+                    <label for="fileInput" class="file-upload-label">
+                        📎 选择文件
+                    </label>
+                    <input type="file" id="fileInput" accept=".csv" style="display: none;" form="chatForm">
+                    <button type="submit" id="sendButton" class="send-button" form="chatForm">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13"></path>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                        </svg>
+                    </button>
+                </form>
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </section>
 
         <div class="section-separator"></div>
 
@@ -102,6 +142,7 @@
     </div>
 
     <script src="animations.js"></script>
+    <script src="chat_enhanced.js"></script>
     <script src="launch_monitoring.js"></script>
 </body>
 

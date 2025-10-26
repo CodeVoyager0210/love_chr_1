@@ -15,7 +15,10 @@
       "Bash(findstr:*)",
       "Bash(tasklist:*)",
       "Bash(mysql:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npm run dev)",
+      "Bash(powershell:*)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []
