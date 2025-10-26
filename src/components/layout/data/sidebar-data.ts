@@ -23,6 +23,7 @@ import {
   GalleryVerticalEnd,
   Thermometer,
   MapPin,
+  Image,
 } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -45,9 +46,14 @@ export const sidebarData: SidebarData = {
       title: '海洋温度分析',
       items: [
         {
-          title: '海面温度查询',
-          url: '/sst-query',
+          title: '海面温度系统',
+          url: '/sst',
           icon: Thermometer,
+        },
+        {
+          title: '海面温度分布图',
+          url: '/sst-query',
+          icon: Image,
         },
         {
           title: '区域海面温度分析',

@@ -1,117 +1,73 @@
-# Shadcn Admin Dashboard
+🚀 项目启动指南
 
-Admin Dashboard UI crafted with Shadcn and Vite. Built with responsiveness and accessibility in mind.
+  1. 启动前端开发服务器
 
-![alt text](public/images/shadcn-admin.png)
+  # 在项目根目录执行
+  npm run dev
+  # 或
+  pnpm dev
+  前端将在 http://localhost:5173 运行
 
-I've been creating dashboard UIs at work and for my personal projects. I always wanted to make a reusable collection of dashboard UI for future projects; and here it is now. While I've created a few custom components, some of the code is directly adapted from ShadcnUI examples.
+  2. 启动后端API服务器 (选择一个版本)
 
-> This is not a starter project (template) though. I'll probably make one in the future.
+  选择A: 基础优化版本 (推荐)
 
-## Features
+  # 在项目根目录执行
+  node server.mjs
 
-- Light/dark mode
-- Responsive
-- Accessible
-- With built-in Sidebar component
-- Global search command
-- 10+ pages
-- Extra custom components
-- RTL support
+  选择B: 超高性能版本 (需要先创建索引)
 
-<details>
-<summary>Customized Components (click to expand)</summary>
+  # 步骤1: 创建网格化索引 (可选，但强烈推荐)
+  node create-spatial-index.mjs
 
-This project uses Shadcn UI components, but some have been slightly modified for better RTL (Right-to-Left) support and other improvements. These customized components differ from the original Shadcn UI versions.
+  # 步骤2: 启动超优化服务器
+  node server-ultra-optimized.mjs
 
-If you want to update components using the Shadcn CLI (e.g., `npx shadcn@latest add <component>`), it's generally safe for non-customized components. For the listed customized ones, you may need to manually merge changes to preserve the project's modifications and avoid overwriting RTL support or other updates.
+  3. 启动顺序建议
 
-> If you don't require RTL support, you can safely update the 'RTL Updated Components' via the Shadcn CLI, as these changes are primarily for RTL compatibility. The 'Modified Components' may have other customizations to consider.
+  1. 先启动后端服务器:
+  node server.mjs
+  1. 确保看到 Server running on http://localhost:3000
+  2. 再启动前端开发服务器:
+  npm run dev
+  2. 确保看到前端页面在 http://localhost:5173
 
-### Modified Components
+  4. 访问应用
 
-- scroll-area
-- sonner
-- separator
+  - 海面温度查询页面: http://localhost:5173/sst-query
+  - API健康检查: http://localhost:3000/api/health
 
-### RTL Updated Components
+  5. 测试数据
 
-- alert-dialog
-- calendar
-- command
-- dialog
-- dropdown-menu
-- select
-- table
-- sheet
-- sidebar
-- switch
+  推荐测试参数：
+  - 纬度: -78.373
+  - 经度: 165.876
+  - 日期: 2025-02-15
 
-**Notes:**
+  6. 故障排除
 
-- **Modified Components**: These have general updates, potentially including RTL adjustments.
-- **RTL Updated Components**: These have specific changes for RTL language support (e.g., layout, positioning).
-- For implementation details, check the source files in `src/components/ui/`.
-- All other Shadcn UI components in the project are standard and can be safely updated via the CLI.
+  如果遇到问题：
 
-</details>
+  1. 端口冲突:
+  # 检查端口占用
+  netstat -an | findstr :3000
+  netstat -an | findstr :5173
+  2. 数据库连接问题:
+    - 确保MySQL服务正在运行
+    - 检查密码是否正确 (3322929160@huhu)
+  3. API无响应:
+    - 检查后端控制台日志
+    - 确认数据库连接
 
-## Tech Stack
+  7. 性能监控
 
-**UI:** [ShadcnUI](https://ui.shadcn.com) (TailwindCSS + RadixUI)
+  启动后可以访问：
+  - http://localhost:3000/api/health - 检查系统状态
+  - http://localhost:5173/sst-query - 进行海面温度查询
 
-**Build Tool:** [Vite](https://vitejs.dev/)
+  📁 重要文件说明
 
-**Routing:** [TanStack Router](https://tanstack.com/router/latest)
-
-**Type Checking:** [TypeScript](https://www.typescriptlang.org/)
-
-**Linting/Formatting:** [Eslint](https://eslint.org/) & [Prettier](https://prettier.io/)
-
-**Icons:** [Lucide Icons](https://lucide.dev/icons/), [Tabler Icons](https://tabler.io/icons) (Brand icons only)
-
-**Auth (partial):** [Clerk](https://go.clerk.com/GttUAaK)
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://github.com/satnaing/shadcn-admin.git
-```
-
-Go to the project directory
-
-```bash
-  cd shadcn-admin
-```
-
-Install dependencies
-
-```bash
-  pnpm install
-```
-
-Start the server
-
-```bash
-  pnpm run dev
-```
-
-## Sponsoring this project ❤️
-
-If you find this project helpful or use this in your own work, consider [sponsoring me](https://github.com/sponsors/satnaing) to support development and maintenance. You can [buy me a coffee](https://buymeacoffee.com/satnaing) as well. Don’t worry, every penny helps. Thank you! 🙏
-
-For questions or sponsorship inquiries, feel free to reach out at [contact@satnaing.dev](mailto:contact@satnaing.dev).
-
-### Current Sponsor
-
-- [Clerk](https://go.clerk.com/GttUAaK) - for backing the implementation of Clerk in this project
-
-## Author
-
-Crafted with 🤍 by [@satnaing](https://github.com/satnaing)
-
-## License
-
-Licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
+  - server.mjs - 基础优化服务器 (立即可用)
+  - server-ultra-optimized.mjs - 超高性能服务器 (需要索引)
+  - create-spatial-index.mjs - 网格化索引创建脚本
+  - test-complete-system.mjs - 完整系统测试脚本

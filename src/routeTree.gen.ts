@@ -24,6 +24,8 @@ import { Route as authOtpRouteImport } from './routes/(auth)/otp'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
 import { Route as ClerkAuthenticatedRouteRouteImport } from './routes/clerk/_authenticated/route'
 import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
+import { Route as AuthenticatedSstQueryRouteRouteImport } from './routes/_authenticated/sst-query/route'
+import { Route as AuthenticatedSstRouteRouteImport } from './routes/_authenticated/sst/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
@@ -114,6 +116,17 @@ const ClerkauthRouteRoute = ClerkauthRouteRouteImport.update({
   id: '/(auth)',
   getParentRoute: () => ClerkRouteRoute,
 } as any)
+const AuthenticatedSstQueryRouteRoute =
+  AuthenticatedSstQueryRouteRouteImport.update({
+    id: '/sst-query',
+    path: '/sst-query',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSstRouteRoute = AuthenticatedSstRouteRouteImport.update({
+  id: '/sst',
+  path: '/sst',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSettingsRouteRoute =
   AuthenticatedSettingsRouteRouteImport.update({
     id: '/settings',
@@ -132,9 +145,9 @@ const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexRouteImport.update({
 } as any)
 const AuthenticatedSstQueryIndexRoute =
   AuthenticatedSstQueryIndexRouteImport.update({
-    id: '/sst-query/',
-    path: '/sst-query/',
-    getParentRoute: () => AuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSstQueryRouteRoute,
   } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
@@ -214,6 +227,8 @@ const AuthenticatedErrorsErrorRoute =
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/sst': typeof AuthenticatedSstRouteRoute
+  '/sst-query': typeof AuthenticatedSstQueryRouteRouteWithChildren
   '/clerk/': typeof ClerkauthRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
@@ -239,11 +254,12 @@ export interface FileRoutesByFullPath {
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/regional-analysis': typeof AuthenticatedRegionalAnalysisIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/sst-query': typeof AuthenticatedSstQueryIndexRoute
+  '/sst-query/': typeof AuthenticatedSstQueryIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
 }
 export interface FileRoutesByTo {
+  '/sst': typeof AuthenticatedSstRouteRoute
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
@@ -278,6 +294,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/clerk': typeof ClerkRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/_authenticated/sst': typeof AuthenticatedSstRouteRoute
+  '/_authenticated/sst-query': typeof AuthenticatedSstQueryRouteRouteWithChildren
   '/clerk/(auth)': typeof ClerkauthRouteRouteWithChildren
   '/clerk/_authenticated': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
@@ -313,6 +331,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/clerk'
     | '/settings'
+    | '/sst'
+    | '/sst-query'
     | '/clerk/'
     | '/forgot-password'
     | '/otp'
@@ -338,11 +358,12 @@ export interface FileRouteTypes {
     | '/help-center'
     | '/regional-analysis'
     | '/settings/'
-    | '/sst-query'
+    | '/sst-query/'
     | '/tasks'
     | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/sst'
     | '/clerk'
     | '/forgot-password'
     | '/otp'
@@ -376,6 +397,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/clerk'
     | '/_authenticated/settings'
+    | '/_authenticated/sst'
+    | '/_authenticated/sst-query'
     | '/clerk/(auth)'
     | '/clerk/_authenticated'
     | '/(auth)/forgot-password'
@@ -529,6 +552,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClerkauthRouteRouteImport
       parentRoute: typeof ClerkRouteRoute
     }
+    '/_authenticated/sst-query': {
+      id: '/_authenticated/sst-query'
+      path: '/sst-query'
+      fullPath: '/sst-query'
+      preLoaderRoute: typeof AuthenticatedSstQueryRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/sst': {
+      id: '/_authenticated/sst'
+      path: '/sst'
+      fullPath: '/sst'
+      preLoaderRoute: typeof AuthenticatedSstRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
@@ -552,10 +589,10 @@ declare module '@tanstack/react-router' {
     }
     '/_authenticated/sst-query/': {
       id: '/_authenticated/sst-query/'
-      path: '/sst-query'
-      fullPath: '/sst-query'
+      path: '/'
+      fullPath: '/sst-query/'
       preLoaderRoute: typeof AuthenticatedSstQueryIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+      parentRoute: typeof AuthenticatedSstQueryRouteRoute
     }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
@@ -674,21 +711,38 @@ const AuthenticatedSettingsRouteRouteWithChildren =
     AuthenticatedSettingsRouteRouteChildren,
   )
 
+interface AuthenticatedSstQueryRouteRouteChildren {
+  AuthenticatedSstQueryIndexRoute: typeof AuthenticatedSstQueryIndexRoute
+}
+
+const AuthenticatedSstQueryRouteRouteChildren: AuthenticatedSstQueryRouteRouteChildren =
+  {
+    AuthenticatedSstQueryIndexRoute: AuthenticatedSstQueryIndexRoute,
+  }
+
+const AuthenticatedSstQueryRouteRouteWithChildren =
+  AuthenticatedSstQueryRouteRoute._addFileChildren(
+    AuthenticatedSstQueryRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedSstRouteRoute: typeof AuthenticatedSstRouteRoute
+  AuthenticatedSstQueryRouteRoute: typeof AuthenticatedSstQueryRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedRegionalAnalysisIndexRoute: typeof AuthenticatedRegionalAnalysisIndexRoute
-  AuthenticatedSstQueryIndexRoute: typeof AuthenticatedSstQueryIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedSstRouteRoute: AuthenticatedSstRouteRoute,
+  AuthenticatedSstQueryRouteRoute: AuthenticatedSstQueryRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
@@ -696,7 +750,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedRegionalAnalysisIndexRoute:
     AuthenticatedRegionalAnalysisIndexRoute,
-  AuthenticatedSstQueryIndexRoute: AuthenticatedSstQueryIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
 }
