@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault(); // 阻止任何默认行为
             e.stopPropagation(); // 阻止事件冒泡
 
-            console.log('Start button clicked, navigating to /app');
+            console.log('Start button clicked, navigating to /sst-query');
 
             // 添加过渡动画
             document.body.style.transition = 'opacity 0.5s ease-in-out';
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 延迟跳转到React应用
             setTimeout(() => {
                 // 跳转到React应用的主页面
-                console.log('Navigating to:', window.location.origin + '/app');
-                window.location.href = '/app';
+                console.log('Navigating to:', window.location.origin + '/sst-query');
+                window.location.href = '/sst-query';
             }, 500);
         });
 

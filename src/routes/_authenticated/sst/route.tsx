@@ -1,9 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { SSTDataQuery } from '@/components/sst-data-query';
-import { SSTImageViewer } from '@/components/sst-image-viewer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useEffect } from 'react';
 import { sstApi, SSTStats } from '@/services/api';
 
@@ -102,20 +100,7 @@ function SSTDashboard() {
         </Card>
       </div>
 
-      <Tabs defaultValue="query" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="query">温度数据查询</TabsTrigger>
-          <TabsTrigger value="images">温度图像查看</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="query">
-          <SSTDataQuery />
-        </TabsContent>
-
-        <TabsContent value="images">
-          <SSTImageViewer />
-        </TabsContent>
-      </Tabs>
+      <SSTDataQuery />
     </div>
   );
 }

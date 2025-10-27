@@ -52,6 +52,62 @@ export interface UserFeedback {
 }
 
 export const sstApi = {
+  // SST数据查询API - 根据经纬度和日期查询
+  getSSTData: async (params: {
+    queryType?: 'exact' | 'range' | 'nearby';
+    lat?: number;
+    lon?: number;
+    lat_min?: number;
+    lat_max?: number;
+    lon_min?: number;
+    lon_max?: number;
+    startDate?: string;
+    endDate?: string;
+    sst_min?: number;
+    sst_max?: number;
+    limit?: number;
+    offset?: number;
+    lastId?: number;
+  }): Promise<{
+    data: SSTData[];
+    queryTime: string;
+    count: number;
+    total?: number;
+    hasMore: boolean;
+    nextId?: number;
+    queryType: string;
+    message?: string;
+    isNearbyData?: boolean;
+  }> => {
+    const response = await api.get('/sst-data', { params });
+    return response.data;
+  },
+
+  // SST统计聚合API
+  getSSTStats: async (params?: {
+    lat_min?: number;
+    lat_max?: number;
+    lon_min?: number;
+    lon_max?: number;
+    startDate?: string;
+    endDate?: string;
+    groupBy?: 'day' | 'month' | 'year';
+  }): Promise<{
+    data: Array<{
+      period: string;
+      record_count: number;
+      avg_sst: number;
+      min_sst: number;
+      max_sst: number;
+      std_sst: number;
+    }>;
+    count: number;
+    groupBy: string;
+  }> => {
+    const response = await api.get('/sst-stats', { params });
+    return response.data;
+  },
+
   // SST图片相关API
   getSSTImages: async (params?: {
     startDate?: string;
@@ -93,6 +149,49 @@ export const sstApi = {
     totalPages: number;
   }> => {
     const response = await api.get('/feedback', { params });
+    return response.data;
+  },
+
+  // 优化的精确SST查询API
+  getSSTDataExact: async (params: {
+    lat: number;
+    lon: number;
+    startDate?: string;
+    endDate?: string;
+    limit?: number;
+  }): Promise<{
+    success: boolean;
+    data: SSTData[];
+    queryTime: string;
+    count: number;
+    parameters: {
+      latitude: number;
+      longitude: number;
+      startDate?: string;
+      endDate?: string;
+      limit: number;
+    };
+    performance: {
+      queryTimeMs: number;
+      indexUsed: string;
+      message: string;
+    };
+  }> => {
+    const response = await api.get('/sst-exact', { params });
+    return response.data;
+  },
+
+  // 下载CSV格式数据
+  downloadSSTDataCSV: async (params: {
+    lat: number;
+    lon: number;
+    startDate?: string;
+    endDate?: string;
+  }): Promise<Blob> => {
+    const response = await api.get('/sst-exact', {
+      params: { ...params, download: true },
+      responseType: 'blob'
+    });
     return response.data;
   },
 
